@@ -6,7 +6,9 @@ import MapViewDirections from 'react-native-maps-directions';
 
 //local imports
 
+import { GOOGLE_MAPS_APIKEY } from '@env';
 import { mapStyle } from './../constants/mapStyle';
+import { colors } from '../constants/styles';
 
 const MapComponent = ({ origin, destination }) => {
   const map = useRef(1);
@@ -54,6 +56,13 @@ const MapComponent = ({ origin, destination }) => {
           />
         </MapView.Marker>
       )}
+      <MapViewDirections
+        origin={origin}
+        destination={destination}
+        apikey={GOOGLE_MAPS_APIKEY}
+        strokeWidth={4}
+        strokeColor={colors.black}
+      />
     </MapView>
   );
 };

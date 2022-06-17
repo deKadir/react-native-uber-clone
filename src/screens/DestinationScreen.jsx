@@ -18,12 +18,16 @@ const DestinationScreen = ({ navigation }) => {
   const { setOrigin, setDestination } = useContext(OriginContext);
   useEffect(() => {
     //fake origin data since i didnt create billing account to google maps API
-    setOrigin({ latitude: 37.0102, longitude: 35.301302, address: 'Fatih' });
+    setOrigin({
+      latitude: 37.02916645896905,
+      longitude: 35.3129580570009,
+      address: 'Duygu Cafe',
+    });
     //fake destination data since i didnt create billing account to google maps API
     setDestination({
-      latitude: 37.02028098887196,
-      longitude: 35.31860799405302,
-      address: 'Seyhan Devlet hastanesi',
+      latitude: 37.03259243826138,
+      longitude: 35.3135588718108,
+      address: 'Iller bankası Kavşağı',
     });
     setTimeout(() => {
       navigation.goBack();
