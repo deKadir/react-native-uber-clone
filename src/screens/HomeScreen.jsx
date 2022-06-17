@@ -19,14 +19,19 @@ const HomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <View style={styles.menuIcon}>
+        <TouchableOpacity
+          style={styles.menuIcon}
+          onPress={() => {
+            navigation.openDrawer();
+          }}
+        >
           <Icon
             type="material-community"
             name="menu"
             color={colors.white}
             size={40}
           />
-        </View>
+        </TouchableOpacity>
         <ScrollView style={{ width: SCREEN_WIDTH }}>
           <Text style={styles.title}>Destress your commute</Text>
           <View>
