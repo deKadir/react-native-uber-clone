@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -9,11 +9,12 @@ import {
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Icon } from 'react-native-elements';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 //local imports
 
 import { colors, parameters, SCREEN_WIDTH } from '../constants/styles';
-import { uberOffers } from '../constants/dummy';
-import { MapComponent } from '../components';
+import { uberOffers, carsAround } from '../constants/dummy';
+import { mapStyle } from '../constants/mapStyle';
 const HomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
@@ -78,7 +79,7 @@ const HomeScreen = ({ navigation }) => {
             height: 250,
           }}
         >
-          <MapComponent />
+          <Map />
         </View>
       </ScrollView>
     </View>
@@ -218,5 +219,49 @@ const Address = () => {
         />
       </View>
     </TouchableOpacity>
+  );
+};
+
+const Map = () => {
+  const map = useRef(1);
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        return;
+      }
+
+      let {
+        coords: { latitude, longitude },
+      } = await Location.getCurrentPositionAsync({});
+      setLatLng({ latitude, longitude });
+    })();
+  }, []);
+  return (
+    <MapView
+      provider={PROVIDER_GOOGLE}
+      ref={map}
+      style={{
+        height: '100%',
+        marginVertical: 0,
+        width: '100%',
+      }}
+      customMapStyle={mapStyle}
+      showsUserLocation={true}
+      followsUserLocation={true}
+    >
+      {carsAround.map((item, k) => {
+        return (
+          <MapView.Marker coordinate={item} key={k}>
+            <Image
+              source={require('../../assets/carMarker.png')}
+              style={{ width: 28, height: 12 }}
+              resizeMode="cover"
+            />
+          </MapView.Marker>
+        );
+      })}
+    </MapView>
   );
 };

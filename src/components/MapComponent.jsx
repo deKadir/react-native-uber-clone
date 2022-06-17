@@ -2,25 +2,26 @@ import React, { useRef, useState, useEffect } from 'react';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { Image } from 'react-native';
+import MapViewDirections from 'react-native-maps-directions';
+
 //local imports
 
-import { carsAround } from '../constants/dummy';
 import { mapStyle } from './../constants/mapStyle';
-const MapComponent = () => {
-  const [latLng, setLatLng] = useState({});
+
+const MapComponent = ({ origin, destination }) => {
   const map = useRef(1);
   useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        return;
-      }
-
-      let {
-        coords: { latitude, longitude },
-      } = await Location.getCurrentPositionAsync({});
-      setLatLng({ latitude, longitude });
-    })();
+    setTimeout(() => {
+      map.current.fitToCoordinates([origin, destination], {
+        edgePadding: {
+          top: 150,
+          left: 50,
+          right: 50,
+          bottom: 150,
+        },
+        animated: true,
+      });
+    }, 1000);
   }, []);
   return (
     <MapView
@@ -35,17 +36,24 @@ const MapComponent = () => {
       showsUserLocation={true}
       followsUserLocation={true}
     >
-      {carsAround.map((item, k) => {
-        return (
-          <MapView.Marker coordinate={item} key={k}>
-            <Image
-              source={require('../../assets/carMarker.png')}
-              style={{ width: 28, height: 12 }}
-              resizeMode="cover"
-            />
-          </MapView.Marker>
-        );
-      })}
+      {origin.latitude !== null && (
+        <MapView.Marker coordinate={origin}>
+          <Image
+            source={require('../../assets/location.png')}
+            style={{ width: 12, height: 12 }}
+            resizeMode="contain"
+          />
+        </MapView.Marker>
+      )}
+      {destination.latitude !== null && (
+        <MapView.Marker coordinate={destination}>
+          <Image
+            source={require('../../assets/location.png')}
+            style={{ width: 12, height: 12, borderRadius: 999 }}
+            resizeMode="contain"
+          />
+        </MapView.Marker>
+      )}
     </MapView>
   );
 };

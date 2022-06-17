@@ -1,3 +1,4 @@
 import HomeScreen from './HomeScreen';
 import RequestScreen from './RequestScreen';
-export { HomeScreen, RequestScreen };
+import DestinationScreen from './DestinationScreen';
+export { HomeScreen, RequestScreen, DestinationScreen };
