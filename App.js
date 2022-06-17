@@ -1,13 +1,9 @@
-import { View, Text } from 'react-native';
+import 'react-native-gesture-handler';
 import React from 'react';
-import { HomeScreen } from './src/screens';
+import RootNavigator from './src/navigations/RootNavigator';
 
 const App = () => {
-  return (
-    <View style={{ flex: 1 }}>
-      <HomeScreen />
-    </View>
-  );
+  return <RootNavigator />;
 };
 
 export default App;
